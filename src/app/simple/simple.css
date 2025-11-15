@@ -122,7 +122,6 @@
   margin-top: 20px;
 }
 
-.btn-generate,
 .btn-reset {
   padding: 14px 28px;
   border: none;
@@ -131,158 +130,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
-}
-
-.btn-generate {
-  background: linear-gradient(135deg, #48bb78, #38a169);
-  color: white;
-}
-
-.btn-reset {
   background: linear-gradient(135deg, #ed8936, #dd6b20);
   color: white;
-}
-
-.btn-generate:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
 }
 
 .btn-reset:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
-}
-
-/* ======== RESULTS ======== */
-.results-card {
-  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-  border: 2px solid #bbf7d0;
-}
-
-.result-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  margin: 10px 0;
-  background: white;
-  border-radius: 8px;
-  border-left: 4px solid #10b981;
-}
-
-.result-label {
-  font-weight: 600;
-  color: #374151;
-}
-
-.result-value {
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  color: #059669;
-  font-size: 1.1rem;
-}
-
-.result-explanation {
-  background: #f8fafc;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 15px;
-  border-left: 4px solid #3b82f6;
-}
-
-.result-explanation h4 {
-  color: #1e40af;
-  margin-bottom: 10px;
-}
-
-.result-explanation p {
-  line-height: 1.6;
-  color: #4b5563;
-  margin: 5px 0;
-}
-
-/* Estilos para la sección de fórmulas mejorada */
-.formula-options {
-  margin-bottom: 15px;
-}
-
-.formula-input-container {
-  margin-top: 10px;
-}
-
-.formula-actual {
-  margin-top: 10px;
-  padding: 10px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border-left: 4px solid #3b82f6;
-}
-
-.formula-text {
-  font-family: 'Courier New', monospace;
-  font-weight: 600;
-  color: #1e40af;
-  margin-left: 10px;
-}
-
-.formula-input {
-  font-family: 'Courier New', monospace;
-  font-weight: 600;
-}
-
-/* ======== RESPONSIVE ======== */
-@media (max-width: 768px) {
-  .params-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-}
-
-.tiempo-combined {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.tiempo-input {
-  width: 100%;
-  padding-right: 70px; 
-  box-sizing: border-box;
-}
-
-.tiempo-select {
-  border: none;
-  background: transparent;
-  font-weight: 500;
-  color: #16a34a; /* color del texto del select */
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-}
-.tiempo-select {
-  background-color: #dcfce7; 
-  border-radius: 6px;
-  padding: 2px 8px;
-}
-.tiempo-select-wrapper {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-}
-
-.convertir-label {
-  font-size: 11px;
-  color: #64748b;
-  margin-bottom: 2px;
-  font-weight: 500;
 }
 
 /* Estilos para los botones de modo fórmula */
@@ -351,4 +205,59 @@
   border-bottom: none;
   font-weight: bold;
   color: #059669;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .params-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
+
+/* Tiempo combinado (simple) */
+.tiempo-combined {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tiempo-input {
+  width: 100%;
+  padding-right: 70px;
+  box-sizing: border-box;
+}
+
+.tiempo-select {
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  color: #16a34a;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-color: #dcfce7;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.tiempo-select-wrapper {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.convertir-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 2px;
+  font-weight: 500;
 }

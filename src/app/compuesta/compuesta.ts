@@ -10,17 +10,16 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./compuesta.css'],
 })
 export class Compuesta {
+
   capital: number | null = null;
   tasa: number | null = null;
-  tiempo: number | null = null;
-  tiempoUnidad: string = 'años';
+  tiempo: number | null = null; // SOLO AÑOS
   capitalizacion: number | null = null;
   interes: number | null = null;
   monto: number | null = null;
 
   incognita: string = 'monto';
-  
-  // Propiedades para evaluación
+
   respuestaEstudiante: number | null = null;
   formulaEstudiante: string = '';
   mostrarEvaluacion: boolean = false;
@@ -38,61 +37,54 @@ export class Compuesta {
     'interes': 'I = M - C',
   };
 
-  // Convertir tiempo a años según la unidad
-  private convertirTiempoAAños(tiempo: number, unidad: string): number {
-    switch (unidad) {
-      case 'dias':
-        return tiempo / 365;
-      case 'meses':
-        return tiempo / 12;
-      case 'años':
-        return tiempo;
-      default:
-        return tiempo;
+  // 🔒 Bloquear letras y notación científica en inputs numéricos
+  blockInvalidKeys(event: KeyboardEvent) {
+    const invalidKeys = ['e', 'E', '+'];
+    if (invalidKeys.includes(event.key)) {
+      event.preventDefault();
     }
   }
 
   private getTiempoEnAnios(): number {
-    if (this.tiempo === null) return 0;
-    return this.convertirTiempoAAños(this.tiempo, this.tiempoUnidad);
+    return this.tiempo ?? 0;
   }
 
-  // Calcular el resultado correcto internamente
-  private calcularResultadoCorrecto(): {resultado: number, proceso: string[]} {
+  // 📊 Proceso de cálculo DETALLADO (como en simple)
+  private calcularResultadoCorrecto(): { resultado: number; proceso: string[] } {
     const C = Number(this.capital);
     const tasaDecimal = Number(this.tasa) / 100;
     const n = this.getTiempoEnAnios();
     const m = Number(this.capitalizacion);
-    const I = Number(this.interes);
     const M = Number(this.monto);
 
     let resultado = 0;
     let proceso: string[] = [];
 
     switch (this.incognita) {
+
       case 'capital':
         proceso.push('C = M / (1 + i/m)^(m×n)');
-        const baseCapital = 1 + (tasaDecimal / m);
-        const exponenteCapital = m * n;
         proceso.push(`C = ${M} / (1 + ${tasaDecimal}/${m})^(${m}×${n})`);
-        proceso.push(`C = ${M} / (${baseCapital.toFixed(4)})^(${exponenteCapital})`);
-        const potenciaCapital = Math.pow(baseCapital, exponenteCapital);
-        proceso.push(`C = ${M} / ${potenciaCapital.toFixed(4)}`);
-        resultado = M / potenciaCapital;
+        const baseC = 1 + (tasaDecimal / m);
+        const expC = m * n;
+        proceso.push(`C = ${M} / (${baseC.toFixed(4)})^(${expC})`);
+        const potC = Math.pow(baseC, expC);
+        proceso.push(`C = ${M} / ${potC.toFixed(4)}`);
+        resultado = M / potC;
         proceso.push(`C = ${resultado.toFixed(2)}`);
         break;
 
       case 'tasa':
         proceso.push('i = m × [(M/C)^(1/(m×n)) - 1]');
         proceso.push(`i = ${m} × [(${M}/${C})^(1/(${m}×${n})) - 1]`);
-        const ratioTasa = M / C;
-        const exponenteTasa = 1 / (m * n);
-        proceso.push(`i = ${m} × [${ratioTasa.toFixed(4)}^(1/${(m * n).toFixed(2)}) - 1]`);
-        const potenciaTasa = Math.pow(ratioTasa, exponenteTasa);
-        proceso.push(`i = ${m} × [${potenciaTasa.toFixed(4)} - 1]`);
-        const calculoTasa = m * (potenciaTasa - 1);
-        proceso.push(`i = ${calculoTasa.toFixed(4)}`);
-        resultado = calculoTasa * 100;
+        const ratioT = M / C;
+        const expT = 1 / (m * n);
+        proceso.push(`i = ${m} × [${ratioT.toFixed(4)}^(1/${(m * n).toFixed(2)}) - 1]`);
+        const potT = Math.pow(ratioT, expT);
+        proceso.push(`i = ${m} × [${potT.toFixed(4)} - 1]`);
+        const iDecimal = m * (potT - 1);
+        proceso.push(`i = ${iDecimal.toFixed(4)}`);
+        resultado = iDecimal * 100;
         proceso.push(`i = ${resultado.toFixed(2)}%`);
         break;
 
@@ -100,42 +92,25 @@ export class Compuesta {
         proceso.push('n = [log(M/C)] / [m × log(1 + i/m)]');
         proceso.push(`n = [log(${M}/${C})] / [${m} × log(1 + ${tasaDecimal}/${m})]`);
         const ratioTiempo = M / C;
-        proceso.push(`n = [log(${ratioTiempo.toFixed(4)})] / [${m} × log(1 + ${(tasaDecimal/m).toFixed(4)})]`);
-        const logNumerador = Math.log(ratioTiempo);
-        const logDenominador = Math.log(1 + (tasaDecimal / m));
-        proceso.push(`n = [${logNumerador.toFixed(4)}] / [${m} × ${logDenominador.toFixed(4)}]`);
-        const denominadorTiempo = m * logDenominador;
-        proceso.push(`n = ${logNumerador.toFixed(4)} / ${denominadorTiempo.toFixed(4)}`);
-        const tiempoAnios = logNumerador / denominadorTiempo;
-        proceso.push(`n = ${tiempoAnios.toFixed(4)} años`);
-        
-        switch (this.tiempoUnidad) {
-          case 'dias':
-            resultado = tiempoAnios * 365;
-            proceso.push(`n = ${tiempoAnios.toFixed(4)} × 365`);
-            proceso.push(`n = ${resultado.toFixed(2)} días`);
-            break;
-          case 'meses':
-            resultado = tiempoAnios * 12;
-            proceso.push(`n = ${tiempoAnios.toFixed(4)} × 12`);
-            proceso.push(`n = ${resultado.toFixed(2)} meses`);
-            break;
-          case 'años':
-            resultado = tiempoAnios;
-            proceso.push(`n = ${resultado.toFixed(2)} años`);
-            break;
-        }
+        proceso.push(`n = [log(${ratioTiempo.toFixed(4)})] / [${m} × log(1 + ${(tasaDecimal / m).toFixed(4)})]`);
+        const logNum = Math.log(ratioTiempo);
+        const logDen = Math.log(1 + tasaDecimal / m);
+        proceso.push(`n = [${logNum.toFixed(4)}] / [${m} × ${logDen.toFixed(4)}]`);
+        const denom = m * logDen;
+        proceso.push(`n = ${logNum.toFixed(4)} / ${denom.toFixed(4)}`);
+        resultado = logNum / denom;
+        proceso.push(`n = ${resultado.toFixed(4)} años`);
         break;
 
       case 'monto':
         proceso.push('M = C × (1 + i/m)^(m×n)');
         proceso.push(`M = ${C} × (1 + ${tasaDecimal}/${m})^(${m}×${n})`);
-        const baseMonto = 1 + (tasaDecimal / m);
-        const exponenteMonto = m * n;
-        proceso.push(`M = ${C} × (${baseMonto.toFixed(4)})^(${exponenteMonto})`);
-        const potenciaMonto = Math.pow(baseMonto, exponenteMonto);
-        proceso.push(`M = ${C} × ${potenciaMonto.toFixed(4)}`);
-        resultado = C * potenciaMonto;
+        const baseM = 1 + tasaDecimal / m;
+        const expM = m * n;
+        proceso.push(`M = ${C} × (${baseM.toFixed(4)})^(${expM})`);
+        const potM = Math.pow(baseM, expM);
+        proceso.push(`M = ${C} × ${potM.toFixed(4)}`);
+        resultado = C * potM;
         proceso.push(`M = ${resultado.toFixed(2)}`);
         break;
 
@@ -151,61 +126,59 @@ export class Compuesta {
     return { resultado, proceso };
   }
 
-  // Validación de campos
-  private validarCampos(): boolean {
+  validarCampos(): boolean {
     const faltan: string[] = [];
-    const positivo = (v: any) => v !== null && v !== undefined && !isNaN(v) && Number(v) > 0;
+    const ok = (v: any) => v !== null && Number(v) > 0;
 
     switch (this.incognita) {
       case 'capital':
-        if (!positivo(this.monto)) faltan.push('Monto (M)');
-        if (!positivo(this.tasa)) faltan.push('Tasa de interés (i)');
-        if (!positivo(this.tiempo)) faltan.push('Tiempo (n)');
-        if (!positivo(this.capitalizacion)) faltan.push('Capitalización (m)');
+        if (!ok(this.monto)) faltan.push('Monto');
+        if (!ok(this.tasa)) faltan.push('Tasa');
+        if (!ok(this.tiempo)) faltan.push('Tiempo');
+        if (!ok(this.capitalizacion)) faltan.push('Capitalización');
         break;
       case 'tasa':
-        if (!positivo(this.capital)) faltan.push('Capital (C)');
-        if (!positivo(this.monto)) faltan.push('Monto (M)');
-        if (!positivo(this.tiempo)) faltan.push('Tiempo (n)');
-        if (!positivo(this.capitalizacion)) faltan.push('Capitalización (m)');
+        if (!ok(this.capital)) faltan.push('Capital');
+        if (!ok(this.monto)) faltan.push('Monto');
+        if (!ok(this.tiempo)) faltan.push('Tiempo');
+        if (!ok(this.capitalizacion)) faltan.push('Capitalización');
         break;
       case 'tiempo':
-        if (!positivo(this.capital)) faltan.push('Capital (C)');
-        if (!positivo(this.tasa)) faltan.push('Tasa de interés (i)');
-        if (!positivo(this.monto)) faltan.push('Monto (M)');
-        if (!positivo(this.capitalizacion)) faltan.push('Capitalización (m)');
+        if (!ok(this.capital)) faltan.push('Capital');
+        if (!ok(this.tasa)) faltan.push('Tasa');
+        if (!ok(this.monto)) faltan.push('Monto');
+        if (!ok(this.capitalizacion)) faltan.push('Capitalización');
         break;
       case 'monto':
-        if (!positivo(this.capital)) faltan.push('Capital (C)');
-        if (!positivo(this.tasa)) faltan.push('Tasa de interés (i)');
-        if (!positivo(this.tiempo)) faltan.push('Tiempo (n)');
-        if (!positivo(this.capitalizacion)) faltan.push('Capitalización (m)');
+        if (!ok(this.capital)) faltan.push('Capital');
+        if (!ok(this.tasa)) faltan.push('Tasa');
+        if (!ok(this.tiempo)) faltan.push('Tiempo');
+        if (!ok(this.capitalizacion)) faltan.push('Capitalización');
         break;
       case 'interes':
-        if (!positivo(this.capital)) faltan.push('Capital (C)');
-        if (!positivo(this.monto)) faltan.push('Monto (M)');
+        if (!ok(this.capital)) faltan.push('Capital');
+        if (!ok(this.monto)) faltan.push('Monto');
         break;
     }
 
     if (faltan.length > 0) {
-      alert(`Por favor complete: ${faltan.join(', ')}`);
+      alert(`Faltan: ${faltan.join(', ')}`);
       return false;
     }
 
     if (!this.formulaEstudiante) {
-      alert('Por favor ingrese la fórmula que va a utilizar');
+      alert('Ingrese la fórmula');
       return false;
     }
 
-    if (this.respuestaEstudiante === null || isNaN(Number(this.respuestaEstudiante))) {
-      alert('Por favor ingrese su respuesta');
+    if (this.respuestaEstudiante === null) {
+      alert('Ingrese su respuesta');
       return false;
     }
 
     return true;
   }
 
-  // Cambiar modo de fórmula
   cambiarModoFormula() {
     if (this.modoFormula === 'automatico') {
       this.formulaEstudiante = this.formulasPredefinidas[this.incognita];
@@ -214,43 +187,38 @@ export class Compuesta {
     }
   }
 
-  // Cuando cambia la incógnita
   onIncognitaChange() {
     this.respuestaEstudiante = null;
     this.mostrarEvaluacion = false;
-    
+
     if (this.modoFormula === 'automatico') {
       this.formulaEstudiante = this.formulasPredefinidas[this.incognita];
     }
   }
 
-  // Evaluar la respuesta del estudiante
   evaluarRespuesta() {
     if (!this.validarCampos()) return;
 
     const calculo = this.calcularResultadoCorrecto();
     this.resultadoCorrecto = calculo.resultado;
     this.procesoCalculo = calculo.proceso;
-    
-    const respuestaUsuario = Number(this.respuestaEstudiante);
-    const tolerancia = 0.01;
 
-    // Verificar si la respuesta es correcta
-    this.esCorrecto = Math.abs(respuestaUsuario - this.resultadoCorrecto) <= tolerancia;
+    const r = Number(this.respuestaEstudiante);
+    const tol = 0.01;
 
-    // Verificar si la fórmula es correcta
+    this.esCorrecto = Math.abs(r - this.resultadoCorrecto) <= tol;
+
     const formulaCorrecta = this.formulasPredefinidas[this.incognita];
-    const formulaEsCorrecta = this.formulaEstudiante.trim() === formulaCorrecta;
+    const formOK = this.formulaEstudiante.trim() === formulaCorrecta;
 
-    if (this.esCorrecto && formulaEsCorrecta) {
-      this.mensajeEvaluacion = '✅ ¡Excelente! Tanto la fórmula como el resultado son correctos.';
-    } else if (this.esCorrecto && !formulaEsCorrecta) {
-      this.mensajeEvaluacion = '⚠️ El resultado es correcto, pero la fórmula no coincide.';
-    } else if (!this.esCorrecto && formulaEsCorrecta) {
-      this.mensajeEvaluacion = '⚠️ La fórmula es correcta, pero el resultado no.';
-    } else {
-      this.mensajeEvaluacion = '❌ Tanto la fórmula como el resultado son incorrectos.';
-    }
+    if (this.esCorrecto && formOK)
+      this.mensajeEvaluacion = '✅ ¡Excelente! Fórmula y resultado correctos.';
+    else if (this.esCorrecto)
+      this.mensajeEvaluacion = '⚠️ Resultado correcto pero fórmula incorrecta.';
+    else if (formOK)
+      this.mensajeEvaluacion = '⚠️ Fórmula correcta pero resultado incorrecto.';
+    else
+      this.mensajeEvaluacion = '❌ Fórmula y resultado incorrectos.';
 
     this.mostrarEvaluacion = true;
   }
@@ -259,7 +227,6 @@ export class Compuesta {
     this.capital = null;
     this.tasa = null;
     this.tiempo = null;
-    this.tiempoUnidad = 'años';
     this.capitalizacion = null;
     this.interes = null;
     this.monto = null;
@@ -273,24 +240,14 @@ export class Compuesta {
   getIncognitaLabel(): string {
     const labels: any = {
       'capital': 'Capital (C)',
-      'tasa': 'Tasa de Interés (i) %',
-      'tiempo': 'Tiempo (n)',
+      'tasa': 'Tasa (%)',
+      'tiempo': 'Tiempo (años)',
       'monto': 'Monto (M)',
       'interes': 'Interés (I)',
     };
     return labels[this.incognita];
   }
 
-  getTiempoUnidadLabel(): string {
-    switch (this.tiempoUnidad) {
-      case 'dias': return 'días';
-      case 'meses': return 'meses';
-      case 'años': return 'años';
-      default: return 'años';
-    }
-  }
-
-  // Método para obtener la fórmula correcta
   getFormulaCorrecta(): string {
     return this.formulasPredefinidas[this.incognita];
   }

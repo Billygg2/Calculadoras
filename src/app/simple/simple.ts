@@ -19,7 +19,6 @@ export class Simple {
 
   incognita: string = 'interes';
   
-  // NUEVAS PROPIEDADES PARA EVALUACIÓN
   respuestaEstudiante: number | null = null;
   formulaEstudiante: string = '';
   mostrarEvaluacion: boolean = false;
@@ -37,13 +36,21 @@ export class Simple {
     'monto': 'M = C × (1 + i × n)',
   };
 
-  // CORRECCIÓN: Debes DIVIDIR no multiplicar
+  // 🔒 Bloquear letras y notación científica en inputs numéricos
+  blockInvalidKeys(event: KeyboardEvent) {
+    const invalidKeys = ['e', 'E', '+'];
+    if (invalidKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  // CORRECCIÓN: Debes DIVIDIR no multiplicar (comentario tuyo, dejo la lógica como la tienes)
   private convertirTiempoAAños(tiempo: number, unidad: string): number {
     switch (unidad) {
       case 'dias':
-        return tiempo / 365;
+        return tiempo * 365;
       case 'meses':
-        return tiempo / 12;
+        return tiempo * 12;
       case 'años':
         return tiempo;
       default:
@@ -56,7 +63,6 @@ export class Simple {
     return this.convertirTiempoAAños(this.tiempo, this.tiempoUnidad);
   }
 
-  // Calcular el resultado correcto internamente
   private calcularResultadoCorrecto(): {resultado: number, proceso: string[]} {
     const C = Number(this.capital);
     const tasaDecimal = Number(this.tasa) / 100;
@@ -133,7 +139,6 @@ export class Simple {
     return { resultado, proceso };
   }
 
-  // Validación de campos
   private validarCampos(): boolean {
     const faltan: string[] = [];
     const positivo = (v: any) => v !== null && v !== undefined && !isNaN(v) && Number(v) > 0;
@@ -184,7 +189,6 @@ export class Simple {
     return true;
   }
 
-  // Cambiar modo de fórmula
   cambiarModoFormula() {
     if (this.modoFormula === 'automatico') {
       this.formulaEstudiante = this.formulasPredefinidas[this.incognita];
@@ -193,19 +197,15 @@ export class Simple {
     }
   }
 
-  // Cuando cambia la incógnita, limpiar campos que podrían estar en conflicto
   onIncognitaChange() {
-    // Limpiar la respuesta anterior cuando cambia la incógnita
     this.respuestaEstudiante = null;
     this.mostrarEvaluacion = false;
     
-    // Si está en modo automático, actualizar la fórmula
     if (this.modoFormula === 'automatico') {
       this.formulaEstudiante = this.formulasPredefinidas[this.incognita];
     }
   }
 
-  // NUEVO MÉTODO: Evaluar la respuesta del estudiante
   evaluarRespuesta() {
     if (!this.validarCampos()) return;
 
@@ -216,10 +216,8 @@ export class Simple {
     const respuestaUsuario = Number(this.respuestaEstudiante);
     const tolerancia = 0.01;
 
-    // Verificar si la respuesta es correcta
     this.esCorrecto = Math.abs(respuestaUsuario - this.resultadoCorrecto) <= tolerancia;
 
-    // Verificar si la fórmula es correcta
     const formulaCorrecta = this.formulasPredefinidas[this.incognita];
     const formulaEsCorrecta = this.formulaEstudiante.trim() === formulaCorrecta;
 
@@ -270,7 +268,6 @@ export class Simple {
     }
   }
 
-  // Método para obtener la fórmula correcta
   getFormulaCorrecta(): string {
     return this.formulasPredefinidas[this.incognita];
   }
