@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 # Calculadoras
-=======
-# Calculadora
+Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) versión 20.3.5. ApexCharts
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
-
-## Development server
+## 🌐 Demo en Vivo
+**🔗 URL del Generador:** [Billy](https://calculadoras-psi.vercel.app/compuesta)
 
 To start a local development server, run:
 
