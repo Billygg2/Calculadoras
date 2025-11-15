@@ -1,0 +1,180 @@
+<div class="content-wrapper">
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1>💰 Calculadora de Interés Compuesto - Modo Evaluación</h1>
+      <p class="muted">Complete los datos, ingrese su fórmula y respuesta, luego evalúe</p>
+    </div>
+  </header>
+
+  <section class="controls-card card">
+    <div class="section-header">
+      <span class="icon">⚙️</span>
+      <h3>Datos del Problema</h3>
+    </div>
+
+    <div class="params-grid">
+      <!-- Capital -->
+      <div class="param-group" *ngIf="incognita !== 'capital'">
+        <label class="filter-label">Capital (C):</label>
+        <input type="number" [(ngModel)]="capital" class="filter-select" placeholder="Ingrese capital">
+        <small>Valor inicial de la inversión (S/)</small>
+      </div>
+
+      <!-- Tasa -->
+      <div class="param-group" *ngIf="incognita !== 'tasa'">
+        <label class="filter-label">Tasa de interés anual (%) (i):</label>
+        <input type="number" [(ngModel)]="tasa" class="filter-select" placeholder="Ingrese tasa en %">
+        <small>Tasa de interés en porcentaje anual</small>
+      </div>
+
+      <!-- Tiempo -->
+      <div class="param-group" *ngIf="incognita !== 'tiempo'">
+        <label class="filter-label">Tiempo (t):</label>
+        <div class="tiempo-combined">
+          <input type="number" [(ngModel)]="tiempo" class="filter-select tiempo-input" placeholder="Ingrese tiempo">
+          <div class="tiempo-select-wrapper">
+            <span class="convertir-label">Convertir a:</span>
+            <select [(ngModel)]="tiempoUnidad" class="tiempo-select">
+              <option value="dias">Días</option>
+              <option value="meses">Meses</option>
+              <option value="años">Años</option>
+            </select>
+          </div>
+        </div>
+        <small>Duración en {{ getTiempoUnidadLabel() }}</small>
+      </div>
+
+      <!-- Capitalización -->
+      <div class="param-group">
+        <label class="filter-label">Capitalización por año (m):</label>
+        <select [(ngModel)]="capitalizacion" class="filter-select">
+          <option value="">-- Seleccionar --</option>
+          <option value="1">Anual (1)</option>
+          <option value="2">Semestral (2)</option>
+          <option value="4">Trimestral (4)</option>
+          <option value="6">Bimestral (6)</option>
+          <option value="12">Mensual (12)</option>
+          <option value="24">Quincenal (24)</option>
+          <option value="365">Diaria (365)</option>
+        </select>
+        <small>Número de capitalizaciones por año</small>
+      </div>
+
+      <!-- Interés -->
+      <div class="param-group" *ngIf="incognita !== 'interes'">
+        <label class="filter-label">Interés (I):</label>
+        <input type="number" [(ngModel)]="interes" class="filter-select" placeholder="Ingrese interés">
+        <small>Interés compuesto generado (S/)</small>
+      </div>
+
+      <!-- Monto -->
+      <div class="param-group" *ngIf="incognita !== 'monto'">
+        <label class="filter-label">Monto (M):</label>
+        <input type="number" [(ngModel)]="monto" class="filter-select" placeholder="Ingrese monto">
+        <small>Capital final (S/)</small>
+      </div>
+
+      <!-- Incógnita a calcular -->
+      <div class="param-group">
+        <label class="filter-label">Incógnita a calcular:</label>
+        <select [(ngModel)]="incognita" (change)="onIncognitaChange()" class="filter-select">
+          <option value="capital">Capital (C)</option>
+          <option value="tasa">Tasa de Interés (i)</option>
+          <option value="tiempo">Tiempo (n)</option>
+          <option value="monto">Monto (M)</option>
+          <option value="interes">Interés (I)</option>
+        </select>
+        <small>Seleccione qué desea calcular</small>
+      </div>
+    </div>
+
+    <!-- SECCIÓN DE RESPUESTA DEL ESTUDIANTE -->
+    <div class="respuesta-estudiante">
+      <div class="section-header">
+        <span class="icon">✏️</span>
+        <h3>Su Respuesta</h3>
+      </div>
+
+      <!-- Selector de modo fórmula -->
+      <div class="param-group">
+        <label class="filter-label">Modo de fórmula:</label>
+        <div class="modo-formula-buttons">
+          <button type="button" 
+                  class="btn-modo" 
+                  [class.active]="modoFormula === 'manual'"
+                  (click)="modoFormula = 'manual'; cambiarModoFormula()">
+            📝 Manual
+          </button>
+          <button type="button" 
+                  class="btn-modo" 
+                  [class.active]="modoFormula === 'automatico'"
+                  (click)="modoFormula = 'automatico'; cambiarModoFormula()">
+            ⚡ Automático
+          </button>
+        </div>
+        <small *ngIf="modoFormula === 'manual'">Usted debe escribir la fórmula</small>
+        <small *ngIf="modoFormula === 'automatico'">La fórmula se completará automáticamente</small>
+      </div>
+
+      <div class="params-grid">
+        <!-- Fórmula del estudiante -->
+        <div class="param-group">
+          <label class="filter-label">Fórmula utilizada:</label>
+          <input type="text" [(ngModel)]="formulaEstudiante" class="filter-select formula-input" 
+                 placeholder="Ej: M = C × (1 + i/m)^(m×n)" [disabled]="modoFormula === 'automatico'">
+          <small>Ingrese la fórmula que utilizó para calcular</small>
+        </div>
+
+        <!-- Respuesta del estudiante -->
+        <div class="param-group">
+          <label class="filter-label">Su respuesta para {{ getIncognitaLabel() }}:</label>
+          <input type="number" [(ngModel)]="respuestaEstudiante" class="filter-select" 
+                 placeholder="Ingrese su resultado" step="0.01">
+          <small>Ingrese el valor calculado</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-evaluar" (click)="evaluarRespuesta()">📝 Evaluar Respuesta</button>
+      <button class="btn-reset" (click)="reset()">🔄 Reiniciar</button>
+    </div>
+  </section>
+<br>
+<br>
+<br>
+  <!-- RESULTADO DE EVALUACIÓN -->
+  <section class="evaluacion-card card" *ngIf="mostrarEvaluacion" 
+           [class.correcta]="esCorrecto" [class.incorrecta]="!esCorrecto">
+    <div class="section-header">
+      <span class="icon" [class]="esCorrecto ? 'icon-correcto' : 'icon-incorrecto'">
+        {{ esCorrecto ? '✅' : '❌' }}
+      </span>
+      <h3>Resultado de la Evaluación</h3>
+    </div>
+    <div class="evaluacion-content">
+      <div class="evaluacion-mensaje">
+        {{ mensajeEvaluacion }}
+      </div>
+      
+      <!-- PROCESO DE CÁLCULO -->
+      <div class="proceso-calculo">
+        <h4>📊 Proceso de Cálculo Correcto:</h4>
+        <div class="proceso-texto">
+          <div *ngFor="let paso of procesoCalculo" class="paso-calculo">
+            {{ paso }}
+          </div>
+        </div>
+      </div>
+
+      <div class="evaluacion-detalles" *ngIf="!esCorrecto">
+        <p><strong>Fórmula correcta:</strong> {{ getFormulaCorrecta() }}</p>
+        <p><strong>Resultado correcto:</strong> 
+          <span *ngIf="incognita !== 'tiempo' && incognita !== 'tasa'">S/ {{ resultadoCorrecto | number:'1.2-2' }}</span>
+          <span *ngIf="incognita === 'tasa'">{{ resultadoCorrecto | number:'1.2-2' }}%</span>
+          <span *ngIf="incognita === 'tiempo'">{{ resultadoCorrecto | number:'1.2-2' }} {{ getTiempoUnidadLabel() }}</span>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

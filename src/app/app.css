@@ -1,0 +1,11 @@
+.web-wrap {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  margin-left: 300px;
+  flex: 1;
+  padding: 32px;
+  min-height: 100vh;
+}

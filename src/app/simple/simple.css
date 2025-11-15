@@ -1,0 +1,354 @@
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.topbar {
+  margin-bottom: 20px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #1e293b;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.topbar p {
+  margin: 4px 0 0;
+  font-size: 1.1rem;
+}
+
+.muted {
+  color: #64748b;
+}
+
+/* ======== CARDS ======== */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+}
+
+/* ======== SECTION HEADERS ======== */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.icon {
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+  border-radius: 8px;
+}
+
+/* ======== PARAMS GRID ======== */
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.param-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.param-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4a5568;
+}
+
+.filter-select {
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  background: white;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+
+.formula-group {
+  grid-column: 1 / -1;
+}
+
+.formula-input {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.param-group small {
+  margin-top: 5px;
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+/* ======== ACTIONS ======== */
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-generate,
+.btn-reset {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-generate {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+}
+
+.btn-reset {
+  background: linear-gradient(135deg, #ed8936, #dd6b20);
+  color: white;
+}
+
+.btn-generate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.btn-reset:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
+}
+
+/* ======== RESULTS ======== */
+.results-card {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 2px solid #bbf7d0;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin: 10px 0;
+  background: white;
+  border-radius: 8px;
+  border-left: 4px solid #10b981;
+}
+
+.result-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.result-value {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: #059669;
+  font-size: 1.1rem;
+}
+
+.result-explanation {
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  border-left: 4px solid #3b82f6;
+}
+
+.result-explanation h4 {
+  color: #1e40af;
+  margin-bottom: 10px;
+}
+
+.result-explanation p {
+  line-height: 1.6;
+  color: #4b5563;
+  margin: 5px 0;
+}
+
+/* Estilos para la sección de fórmulas mejorada */
+.formula-options {
+  margin-bottom: 15px;
+}
+
+.formula-input-container {
+  margin-top: 10px;
+}
+
+.formula-actual {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.formula-text {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #1e40af;
+  margin-left: 10px;
+}
+
+.formula-input {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .params-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
+
+.tiempo-combined {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tiempo-input {
+  width: 100%;
+  padding-right: 70px; 
+  box-sizing: border-box;
+}
+
+.tiempo-select {
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  color: #16a34a; /* color del texto del select */
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+.tiempo-select {
+  background-color: #dcfce7; 
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.tiempo-select-wrapper {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.convertir-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+/* Estilos para los botones de modo fórmula */
+.modo-formula-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.btn-modo {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-modo.active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border-color: #3b82f6;
+}
+
+.btn-modo:hover:not(.active) {
+  background: #f8fafc;
+  border-color: #cbd5e0;
+}
+
+/* Estilos para el proceso de cálculo */
+.proceso-calculo {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.proceso-calculo h4 {
+  margin: 0 0 10px 0;
+  color: #1e40af;
+  font-size: 1rem;
+}
+
+.proceso-texto {
+  font-family: 'Courier New', monospace;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #374151;
+}
+
+.paso-calculo {
+  padding: 4px 0;
+  font-family: 'Courier New', monospace;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.paso-calculo:last-child {
+  border-bottom: none;
+  font-weight: bold;
+  color: #059669;
+}
