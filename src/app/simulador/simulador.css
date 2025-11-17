@@ -1,0 +1,207 @@
+/* BASE */
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.muted {
+  color: #64748b;
+}
+
+/* CARDS */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  margin-bottom: 24px;
+}
+
+/* SECTION HEADER */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.icon {
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  background: #eff6ff;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.param-group label {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.param-group small {
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+.filter-select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  font-size: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn-evaluar {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-reset {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #ed8936, #dd6b20);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+}
+
+/* TABLA */
+.tabla-resultados {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-resultados th,
+.tabla-resultados td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.tabla-resultados th {
+  background: #eff6ff;
+  font-weight: 700;
+}
+.param-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* PLAZO */
+
+.plazo-combined {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.plazo-input {
+  width: 100%;
+  padding-right: 90px;   
+  box-sizing: border-box;
+}
+
+/* Select del plazo */
+.plazo-select {
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  color: #16a34a;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-color: #dcfce7;
+  border-radius: 6px;
+  padding: 3px 10px;
+}
+
+/* El wrapper flotante */
+.plazo-select-wrapper {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.convertir-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+/* SCROLL TABLA */
+.tabla-scroll {
+  max-height: 350px;       
+  overflow-y: auto;        
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+/* scrollbar  */
+.tabla-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tabla-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
+}
+
+.tabla-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.tabla-resultados thead th {
+  position: sticky;
+  top: 0;
+  background: #eff6ff;
+  z-index: 2;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .params-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+    .plazo-input {
+    padding-right: 100px;
+  }
+}

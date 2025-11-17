@@ -36,7 +36,7 @@ export class Simple {
     'monto': 'M = C × (1 + i × n)',
   };
 
-  // 🔒 Bloquear letras y notación científica en inputs numéricos
+  // Bloquear letras y notación científica en inputs numéricos
   blockInvalidKeys(event: KeyboardEvent) {
     const invalidKeys = ['e', 'E', '+'];
     if (invalidKeys.includes(event.key)) {

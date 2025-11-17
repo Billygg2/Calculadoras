@@ -1,0 +1,112 @@
+<div class="content-wrapper">
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <h1>🏦 Simulador de Crédito Bancario</h1>
+            <p class="muted">Calcule cuotas según Tabla Francesa o Alemana</p>
+        </div>
+    </header>
+
+    <section class="controls-card card">
+        <div class="section-header">
+            <span class="icon">⚙️</span>
+            <h3>Datos del Crédito</h3>
+        </div>
+        <div class="params-grid">
+
+            <!-- CAPITAL -->
+            <div class="param-group">
+                <label>Monto del Crédito (C)</label>
+                <input type="number" [(ngModel)]="capital" class="filter-select">
+                <small>Números positivos mayores a 0</small>
+            </div>
+
+            <!-- TASA -->
+            <div class="param-group">
+                <label>Tasa de Interés (%) (i)</label>
+                <input type="number" [(ngModel)]="tasa" class="filter-select">
+                <small>Números positivos mayores a 0</small>
+            </div>
+
+            <!-- PLAZO -->
+            <div class="param-group">
+                <label>Plazo</label>
+
+                <div class="plazo-combined">
+                    <input type="number" [(ngModel)]="plazo" class="filter-select plazo-input"
+                        placeholder="Ingrese plazo">
+                    <div class="plazo-select-wrapper">
+                        <span class="convertir-label">En:</span>
+                        <select [(ngModel)]="plazoUnidad" (change)="onPlazoUnidadChange()" class="plazo-select">
+                            <option value="meses">Meses</option>
+                            <option value="años">Años</option>
+                        </select>
+                    </div>
+                </div>
+                <small>Números positivos mayores a 0</small>
+            </div>
+
+            <!-- PAGOS POR AÑO (solo visible si plazo = años) -->
+            <div class="param-group" *ngIf="plazoUnidad === 'años'">
+                <label>Pagos por año</label>
+                <select [(ngModel)]="pagosPorAnio" class="filter-select">
+                    <option value="">-- Seleccionar --</option>
+                    <option value="12">Mensual</option>
+                    <option value="6">Bimestral</option>
+                    <option value="4">Trimestral</option>
+                    <option value="2">Semestral</option>
+                    <option value="1">Anual</option>
+                </select>
+                <small>Seleccione la frecuencia de pagos</small>
+            </div>
+
+            <!-- TIPO TABLA -->
+            <div class="param-group">
+                <label>Tipo de Tabla de Amortización</label>
+                <select [(ngModel)]="tipoTabla" class="filter-select">
+                    <option value="">-- Seleccionar --</option>
+                    <option value="francesa">Francesa (Cuota Fija)</option>
+                    <option value="alemana">Alemana (Cuota Decreciente)</option>
+                </select>
+            </div>
+        </div>
+        <br><br>
+        <!-- ERROR -->
+        <div *ngIf="mensajeError" class="error-box">
+            ⚠️ {{ mensajeError }}
+        </div>
+        <div class="actions">
+            <button class="btn-evaluar" (click)="calcular()">📊 Calcular</button>
+            <button class="btn-reset" (click)="reset()">🔄 Reiniciar</button>
+        </div>
+    </section>
+
+    <!-- TABLA -->
+    <section *ngIf="mostrarTabla" class="card tabla-card">
+        <h3>📋 Tabla de Amortización — {{ tipoTabla | uppercase }}</h3>
+
+        <!-- CONTENEDOR CON SCROLL -->
+        <div class="tabla-scroll">
+            <table class="tabla-resultados">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Cuota</th>
+                        <th>Capital</th>
+                        <th>Interés</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of cuotas">
+                        <td>{{ c.num }}</td>
+                        <td>{{ c.cuota | number:'1.2-2' }}</td>
+                        <td>{{ c.capital | number:'1.2-2' }}</td>
+                        <td>{{ c.interes | number:'1.2-2' }}</td>
+                        <td>{{ c.saldo | number:'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
